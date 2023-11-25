@@ -1,4 +1,6 @@
-# comp-3005-a4
+# COMP 3005A Winter 2023
+### Assignment 4
+### Erica Li 
 
 ## How to run:
 1. In postgreSQL, initialize a new database called "Students". Leave it blank.
