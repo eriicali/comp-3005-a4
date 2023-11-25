@@ -4,11 +4,11 @@ from vars import hostname, database, username, pwd, port_id
 conn = None
 cursor = None
 
-# Retrieves and displays all records from the students table.
+# Retrieves and displays all records from the students table
 def getAllStudents():
     return 'SELECT * FROM students;'
 
-# Inserts a new student record into the students table.
+# Inserts a new student record into the students table
 def addStudent(first_name, last_name, email, enrollment_date):
     first_name = "'" + first_name + "'"
     last_name = "'" + last_name + "'"
@@ -16,16 +16,17 @@ def addStudent(first_name, last_name, email, enrollment_date):
     enrollment_date = "'" + enrollment_date + "'"
     return 'INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES (' + first_name + ', ' + last_name + ', ' + email + ', ' + enrollment_date + ');'
 
-# Updates the email address for a student with the specified student_id.
+# Updates the email address for a student with the specified student_id
 def updateStudentEmail(student_id, new_email):
     new_email = "'" + new_email + "'"
     return 'UPDATE students SET email = ' + new_email + ' WHERE id = ' + str(student_id) + ';' 
 
-# Deletes the record of the student with the specified student_id.
+# Deletes the record of the student with the specified student_id
 def deleteStudent(student_id):
     return 'DELETE FROM students WHERE id = ' + str(student_id) + ';'
 
 try:
+    # Connecting to the database in pgadmin
     conn = psycopg2.connect(
         host = hostname,
         dbname = database,
@@ -33,7 +34,9 @@ try:
         password = pwd,
         port = port_id
     )
+    # Creating a cursor 
     cursor = conn.cursor()
+    # Initialzing table and columns in database
     cursor.execute('DROP TABLE IF EXISTS students')
     init_db = ''' CREATE TABLE IF NOT EXISTS students (
         id SERIAL PRIMARY KEY,
@@ -44,11 +47,13 @@ try:
         );
     ''' 
     cursor.execute(init_db)
+    # Insert initial data in table
     insert_script = '''INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES
     ('John', 'Doe', 'john.doe@example.com', '2023-09-01'),
     ('Jane', 'Smith', 'jane.smith@example.com', '2023-09-01'),
     ('Jim', 'Beam', 'jim.beam@example.com', '2023-09-02');'''
     cursor.execute(insert_script)
+    # Main logic execution loop
     while True:
         conn.commit()
         selection = input("Enter A to add a new student \n Enter G to get all students \n Enter U to update an email \n Enter D to delete an entry \n Enter any other key to quit: ")
@@ -56,6 +61,7 @@ try:
             newFN = input("Enter the new student's first name: ")
             newLN = input("Enter the new student's last name: ")
             proceed = False
+            # Validation for email input
             while proceed == False:
                 newEmail = input("Enter the new student's email: ")
                 cursor.execute("SELECT email FROM students WHERE email='" + newEmail + "'")
@@ -65,6 +71,7 @@ try:
                 else:
                     print("Student with this email already exists, please try again: ")
             proceed = False
+            # Validation for date input
             while proceed == False:
                 newDate = input("Enter the new student's enrollment date (must be formatted as YYYY-MM-DD): ")
                 try:
