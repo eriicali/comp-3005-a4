@@ -1,27 +1,27 @@
 import psycopg2
 from datetime import datetime
-hostname = 'localhost'
-database = 'Students'
-username = 'postgres'
-pwd = 'admin123'
-port_id = 5432
+from vars import hostname, database, username, pwd, port_id
 conn = None
 cursor = None
 
+# Retrieves and displays all records from the students table.
 def getAllStudents():
     return 'SELECT * FROM students;'
-    
+
+# Inserts a new student record into the students table.
 def addStudent(first_name, last_name, email, enrollment_date):
     first_name = "'" + first_name + "'"
     last_name = "'" + last_name + "'"
     email = "'" + email + "'"
     enrollment_date = "'" + enrollment_date + "'"
     return 'INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES (' + first_name + ', ' + last_name + ', ' + email + ', ' + enrollment_date + ');'
-    
+
+# Updates the email address for a student with the specified student_id.
 def updateStudentEmail(student_id, new_email):
     new_email = "'" + new_email + "'"
     return 'UPDATE students SET email = ' + new_email + ' WHERE id = ' + str(student_id) + ';' 
-    
+
+# Deletes the record of the student with the specified student_id.
 def deleteStudent(student_id):
     return 'DELETE FROM students WHERE id = ' + str(student_id) + ';'
 
