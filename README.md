@@ -12,3 +12,6 @@
 - addStudent(first_name, last_name, email, enrollment_date): Inserts a new student record into the students table.
 - updateStudentEmail(student_id, new_email): Updates the email address for a student with the specified student_id.
 - (student_id): Deletes the record of the student with the specified student_id.
+
+## Video:
+- https://youtu.be/XBgc1kIArmw

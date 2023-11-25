@@ -86,14 +86,41 @@ try:
             for entry in cursor.fetchall():
                 print(entry)
         elif selection == 'U':
-            id = input("Enter the student ID of the student you wish to update: ")
-            cursor.execute("FROM students SELECT * WHERE id=" + id + " ;")
-            email = input('Enter the new email: ')
+            proceed = False
+            # Validation for id input
+            while proceed == False:
+                id = input("Enter the student ID of the student you wish to update: ")
+                cursor.execute("SELECT id FROM students WHERE id = " + id + ";")
+                ids = cursor.fetchall()
+                if ids:
+                    proceed = True
+                else:
+                    print("Student with the entered ID does not exist, please try again: ")
+            proceed = False
+            # Validation for email input
+            while proceed == False:
+                email = input("Enter the new student's email: ")
+                cursor.execute("SELECT email FROM students WHERE email='" + email + "'")
+                students = cursor.fetchall()
+                if not students:
+                    proceed = True
+                else:
+                    print("Student with this email already exists, please try again: ")
+            
             print("Updating email...")
             cursor.execute(updateStudentEmail(id, email))
         elif selection == 'D':
-            id = input("Enter the student ID of the student you wish to delete: ")
-            cursor.execute(deleteStudent(4))
+            proceed = False
+            # Validation for email input
+            while proceed == False:
+                id = input("Enter the student ID of the student you wish to delete: ")
+                cursor.execute("SELECT id FROM students WHERE id = " + id + ";")
+                students = cursor.fetchall()
+                if students:
+                    proceed = True
+                else:
+                    print("Student with id does not exist, please try again: ")
+            cursor.execute(deleteStudent(id))
         else:
             print("Terminating the program...")
             break
